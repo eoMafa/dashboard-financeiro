@@ -12,6 +12,7 @@ export class TransactionsService {
         title: data.title,
         amount: data.amount,
         type: data.type,
+        category: data.category,
         userId,
       },
     });

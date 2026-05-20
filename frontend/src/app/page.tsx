@@ -7,23 +7,24 @@ import { Topbar } from "@/components/layout/topbar";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
+import { NewTransactionModal } from "@/components/dashboard/new-transaction-modal";
+import { CategoryChart } from "@/components/charts/category-chart";
 
 export default function Home() {
   useAuth();
   const [transactions, setTransactions] =
   useState([]);
-  useEffect(() => {
-    async function loadTransactions() {
-      try {
-        const response =
-          await api.get("/transactions");
+  async function loadTransactions() {
+    try {
+      const response =
+        await api.get("/transactions");
 
-        setTransactions(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+      setTransactions(response.data);
+    } catch (error) {
+      console.log(error);
     }
-
+  }
+  useEffect(() => {
     loadTransactions();
   }, []);
 
@@ -45,7 +46,7 @@ const expense = transactions
 
 const balance = income - expense;
   return (
-    <main className="flex bg-black min-h-screen text-white">
+    <main className="flex flex-col md:flex-row bg-black min-h-screen items-stretch text-white">
       <Sidebar />
 
       <section className="flex-1">
@@ -60,7 +61,15 @@ const balance = income - expense;
             Bem-vindo ao sistema financeiro.
           </p>
 
-          <div className="grid grid-cols-4 gap-6 mt-10">
+          <div className="flex justify-between items-center mt-8">
+            <div />
+
+            <NewTransactionModal
+              onCreated={loadTransactions}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
             <FinancialCard
               title="Saldo Total"
               value={`R$ ${balance.toFixed(2)}`}
@@ -86,7 +95,13 @@ const balance = income - expense;
             />
           </div>
 
-          <BalanceChart />
+          <BalanceChart
+            transactions={transactions}
+          />
+
+          <CategoryChart
+            transactions={transactions}
+          />
 
           <div className="mt-8 bg-zinc-950 border border-zinc-800 rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-6">
