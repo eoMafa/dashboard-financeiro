@@ -23,6 +23,7 @@ model Transaction {
   title     String
   amount    Float
   type      String
+  category  String   @default("Other")
 
   createdAt DateTime @default(now())
 
