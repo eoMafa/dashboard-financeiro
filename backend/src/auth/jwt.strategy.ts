@@ -6,6 +6,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { ConfigService } from '@nestjs/config';
 
+import { AuthUser } from './interfaces/authenticated-request.interface';
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService) {
@@ -18,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: { sub: string; email: string }) {
+  validate(payload: { sub: string; email: string }): AuthUser {
     return {
       userId: payload.sub,
       email: payload.email,
