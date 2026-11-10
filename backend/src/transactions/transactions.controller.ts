@@ -11,13 +11,15 @@ import { AuthGuard } from '@nestjs/passport';
 
 import { TransactionsService } from './transactions.service';
 
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+
 @Controller('transactions')
 export class TransactionsController {
   constructor(private transactionsService: TransactionsService) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  async create(@Request() req: any, @Body() body: any) {
+  async create(@Request() req: any, @Body() body: CreateTransactionDto) {
     return this.transactionsService.create(req.user.userId, body);
   }
 
