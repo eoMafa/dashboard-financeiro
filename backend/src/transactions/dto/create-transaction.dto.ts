@@ -24,5 +24,5 @@ export class CreateTransactionDto {
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  category!: string;
+  category?: string;
 }
