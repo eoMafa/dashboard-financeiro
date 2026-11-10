@@ -46,7 +46,7 @@ const expense = transactions
 
 const balance = income - expense;
   return (
-    <main className="flex flex-col md:flex-row bg-black min-h-screen items-stretch text-white">
+    <main className="flex flex-col md:flex-row bg-background min-h-screen items-stretch text-foreground">
       <Sidebar />
 
       <section className="flex-1">
@@ -57,7 +57,7 @@ const balance = income - expense;
             Dashboard
           </h1>
 
-          <p className="text-zinc-400 mt-2">
+          <p className="text-muted-foreground mt-2">
             Bem-vindo ao sistema financeiro.
           </p>
 
@@ -103,7 +103,7 @@ const balance = income - expense;
             transactions={transactions}
           />
 
-          <div className="mt-8 bg-zinc-950 border border-zinc-800 rounded-2xl p-6">
+          <div className="mt-8 bg-card border rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-6">
               Últimas transações
             </h2>
@@ -112,14 +112,14 @@ const balance = income - expense;
               {transactions.map((transaction: any) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between bg-zinc-900 rounded-xl p-4"
+                  className="flex items-center justify-between bg-muted rounded-xl p-4"
                 >
                   <div>
                     <p className="font-medium">
                       {transaction.title}
                     </p>
 
-                    <p className="text-sm text-zinc-400">
+                    <p className="text-sm text-muted-foreground">
                       {transaction.type}
                     </p>
                   </div>
@@ -127,8 +127,8 @@ const balance = income - expense;
                   <p
                     className={`font-semibold ${
                       transaction.type === "income"
-                        ? "text-green-400"
-                        : "text-red-400"
+                        ? "text-income"
+                        : "text-expense"
                     }`}
                   >
                     R$ {transaction.amount}

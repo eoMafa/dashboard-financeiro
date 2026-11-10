@@ -43,12 +43,12 @@ export function NewTransactionModal({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="bg-white text-black px-4 py-2 rounded-xl font-medium hover:bg-zinc-200 transition">
+        <button className="bg-primary text-primary-foreground px-4 py-2 rounded-xl font-medium hover:opacity-90 transition">
           + Nova Transação
         </button>
       </DialogTrigger>
 
-      <DialogContent className="bg-zinc-950 border border-zinc-800 text-white">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>
             Nova Transação
@@ -62,7 +62,7 @@ export function NewTransactionModal({
             onChange={(e) =>
               setTitle(e.target.value)
             }
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3"
+            className="w-full bg-muted border rounded-xl px-4 py-3"
           />
 
           <input
@@ -72,7 +72,7 @@ export function NewTransactionModal({
             onChange={(e) =>
               setAmount(e.target.value)
             }
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3"
+            className="w-full bg-muted border rounded-xl px-4 py-3"
           />
 
           <select
@@ -80,7 +80,7 @@ export function NewTransactionModal({
             onChange={(e) =>
               setType(e.target.value)
             }
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3"
+            className="w-full bg-muted border rounded-xl px-4 py-3"
           >
             <option value="income">
               Receita
@@ -96,7 +96,7 @@ export function NewTransactionModal({
             onChange={(e) =>
                 setCategory(e.target.value)
             }
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3"
+            className="w-full bg-muted border rounded-xl px-4 py-3"
             >
             <option value="Salary">
                 Salário
@@ -125,7 +125,7 @@ export function NewTransactionModal({
 
           <button
             onClick={handleCreateTransaction}
-            className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-xl transition"
+            className="w-full bg-primary text-primary-foreground hover:opacity-90 font-semibold py-3 rounded-xl transition"
           >
             Salvar Transação
           </button>

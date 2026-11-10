@@ -12,9 +12,9 @@ export function FinancialCard({
   growth,
 }: FinancialCardProps) {
   return (
-    <Card className="bg-zinc-950 border-zinc-800 text-white">
+    <Card>
       <CardContent className="p-6">
-        <p className="text-zinc-400 text-sm">
+        <p className="text-muted-foreground text-sm">
           {title}
         </p>
 
@@ -22,7 +22,7 @@ export function FinancialCard({
           {value}
         </h2>
 
-        <span className="text-emerald-500 text-sm mt-3 block">
+        <span className="text-income text-sm mt-3 block">
           {growth}
         </span>
       </CardContent>

@@ -43,18 +43,18 @@ export function Topbar() {
   }
 
   return (
-    <header className="w-full h-20 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 md:px-8 flex items-center justify-between transition-colors">
+    <header className="w-full h-20 border-b bg-card px-4 md:px-8 flex items-center justify-between transition-colors">
       <div className="flex items-center gap-4">
         <Sheet>
           <SheetTrigger asChild>
-            <button className="md:hidden text-black dark:text-white">
+            <button className="md:hidden text-foreground">
               <Menu size={24} />
             </button>
           </SheetTrigger>
 
           <SheetContent
             side="left"
-            className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 p-0 w-64"
+            className="bg-card p-0 w-64"
           >
             <div className="p-4">
               <SidebarContent />
@@ -65,36 +65,36 @@ export function Topbar() {
         <div className="relative w-[220px] md:w-[350px]">
           <Search
             size={18}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
           />
 
           <Input
             placeholder="Search..."
-            className="pl-10 bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-black dark:text-white"
+            className="pl-10 bg-muted"
           />
         </div>
       </div>
 
       <div className="flex items-center gap-4 md:gap-6">
         <button className="relative">
-          <Bell className="text-zinc-500 dark:text-zinc-400" />
+          <Bell className="text-muted-foreground" />
 
-          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-orange-500" />
+          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-primary" />
         </button>
 
         <div className="hidden sm:flex items-center gap-3">
           <Avatar>
-            <AvatarFallback className="bg-orange-500 text-black">
+            <AvatarFallback className="bg-muted text-foreground">
               AJ
             </AvatarFallback>
           </Avatar>
 
           <div>
-            <p className="text-sm font-medium text-black dark:text-white">
+            <p className="text-sm font-medium text-foreground">
               Anderson Jr
             </p>
 
-            <span className="text-xs text-zinc-400">
+            <span className="text-xs text-muted-foreground">
               Administrator
             </span>
           </div>
@@ -108,7 +108,7 @@ export function Topbar() {
                 : "dark"
             )
           }
-          className="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white"
+          className="text-muted-foreground hover:text-foreground"
         >
           {mounted &&
             (theme === "dark" ? (
@@ -120,7 +120,7 @@ export function Topbar() {
 
         <button
           onClick={logout}
-          className="text-xs text-red-400 hover:text-red-300"
+          className="text-xs text-destructive hover:opacity-80"
         >
           Logout
         </button>

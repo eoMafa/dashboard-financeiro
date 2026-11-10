@@ -47,13 +47,13 @@ export function BalanceChart({
   );
 
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 mt-8 transition-colors">
+    <div className="bg-card border rounded-2xl p-6 mt-8 transition-colors">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-black dark:text-white">
+        <h2 className="text-xl font-semibold text-foreground">
           Fluxo Financeiro
         </h2>
 
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+        <p className="text-muted-foreground text-sm">
           Evolução das movimentações
         </p>
       </div>
@@ -61,19 +61,26 @@ export function BalanceChart({
       <div className="w-full h-[350px] min-h-[350px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={grouped}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
 
-            <XAxis dataKey="date" />
+            <XAxis dataKey="date" stroke="var(--muted-foreground)" />
 
-            <YAxis />
+            <YAxis stroke="var(--muted-foreground)" />
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                background: "var(--popover)",
+                border: "1px solid var(--border)",
+                color: "var(--popover-foreground)",
+              }}
+            />
 
             <Area
               type="monotone"
               dataKey="balance"
-              stroke="#22c55e"
-              fill="#22c55e"
+              stroke="var(--color-income)"
+              fill="var(--color-income)"
+              fillOpacity={0.15}
             />
           </AreaChart>
         </ResponsiveContainer>

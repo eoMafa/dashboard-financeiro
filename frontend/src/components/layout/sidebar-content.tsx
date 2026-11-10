@@ -10,7 +10,7 @@ export function SidebarContent() {
   return (
     <div className="flex flex-col h-full">
       <div>
-        <h1 className="text-2xl font-bold text-black dark:text-white mb-10 transition-colors">
+        <h1 className="text-2xl font-bold text-foreground mb-10 transition-colors">
           FinDashboard
         </h1>
 
@@ -44,12 +44,12 @@ export function SidebarContent() {
       </div>
 
       <div className="mt-auto pt-6">
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 transition-colors">
-          <p className="text-sm font-medium text-black dark:text-white">
+        <div className="bg-muted border rounded-2xl p-4 transition-colors">
+          <p className="text-sm font-medium text-foreground">
             FinDashboard Pro
           </p>
 
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             Controle financeiro inteligente
           </p>
         </div>
@@ -80,8 +80,8 @@ function SidebarItem({
 
         ${
           active
-            ? "bg-black dark:bg-white text-white dark:text-black shadow-lg"
-            : "text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-black dark:hover:text-white"
+            ? "bg-accent text-accent-foreground"
+            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
         }
       `}
     >

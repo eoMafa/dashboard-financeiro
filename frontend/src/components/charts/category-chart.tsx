@@ -47,13 +47,13 @@ export function CategoryChart({
   );
 
   return (
-    <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 mt-8 transition-colors">
+    <div className="bg-card border rounded-2xl p-6 mt-8 transition-colors">
         <div className="mb-6">
-        <h2 className="text-xl font-semibold text-black dark:text-white">
+        <h2 className="text-xl font-semibold text-foreground">
             Gastos por Categoria
         </h2>
 
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+        <p className="text-muted-foreground text-sm">
             Distribuição das despesas
         </p>
         </div>
@@ -85,7 +85,13 @@ export function CategoryChart({
                 )}
             </Pie>
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                background: "var(--popover)",
+                border: "1px solid var(--border)",
+                color: "var(--popover-foreground)",
+              }}
+            />
             </PieChart>
         </ResponsiveContainer>
         </div>
