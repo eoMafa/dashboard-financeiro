@@ -10,9 +10,14 @@ import {
   YAxis,
 } from "recharts";
 import type { Transacao } from "@/types/transacao";
+import { formatarMoeda, formatarMoedaCompacta } from "@/lib/format";
 
 export function BalanceChart({ transactions }: { transactions: Transacao[] }) {
-  const grouped = transactions.reduce<{ date: string; balance: number }[]>(
+  const ordenadas = [...transactions].sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
+
+  const grouped = ordenadas.reduce<{ date: string; balance: number }[]>(
     (acc, transaction) => {
       const date = new Date(transaction.createdAt).toLocaleDateString("pt-BR", {
         day: "2-digit",
@@ -40,6 +45,15 @@ export function BalanceChart({ transactions }: { transactions: Transacao[] }) {
     [],
   );
 
+  const evolucao = grouped.reduce<{ date: string; balance: number }[]>(
+    (acc, dia) => {
+      const anterior = acc.length > 0 ? acc[acc.length - 1].balance : 0;
+      acc.push({ date: dia.date, balance: anterior + dia.balance });
+      return acc;
+    },
+    [],
+  );
+
   return (
     <div className="bg-card mt-8 rounded-2xl border p-6 transition-colors">
       <div className="mb-6">
@@ -47,19 +61,21 @@ export function BalanceChart({ transactions }: { transactions: Transacao[] }) {
           Fluxo Financeiro
         </h2>
 
-        <p className="text-muted-foreground text-sm">
-          Evolução das movimentações
-        </p>
+        <p className="text-muted-foreground text-sm">Evolução do saldo</p>
       </div>
 
       <div className="h-[350px] min-h-[350px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={grouped}>
+          <AreaChart data={evolucao}>
             <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
 
             <XAxis dataKey="date" stroke="var(--muted-foreground)" />
 
-            <YAxis stroke="var(--muted-foreground)" />
+            <YAxis
+              stroke="var(--muted-foreground)"
+              tickFormatter={(valor: number) => formatarMoedaCompacta(valor)}
+              width={80}
+            />
 
             <Tooltip
               contentStyle={{
@@ -67,11 +83,13 @@ export function BalanceChart({ transactions }: { transactions: Transacao[] }) {
                 border: "1px solid var(--border)",
                 color: "var(--popover-foreground)",
               }}
+              formatter={(valor) => formatarMoeda(Number(valor))}
             />
 
             <Area
               type="monotone"
               dataKey="balance"
+              name="Saldo"
               stroke="var(--color-income)"
               fill="var(--color-income)"
               fillOpacity={0.15}

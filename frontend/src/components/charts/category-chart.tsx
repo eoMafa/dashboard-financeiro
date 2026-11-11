@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import type { Transacao } from "@/types/transacao";
+import { formatarMoeda } from "@/lib/format";
 
 const COLORS = [
   "#22c55e",
@@ -53,7 +54,7 @@ export function CategoryChart({ transactions }: { transactions: Transacao[] }) {
               dataKey="value"
               nameKey="name"
               outerRadius={120}
-              label
+              label={({ value }) => formatarMoeda(Number(value))}
             >
               {grouped.map((_, index: number) => (
                 <Cell key={index} fill={COLORS[index % COLORS.length]} />
@@ -66,6 +67,7 @@ export function CategoryChart({ transactions }: { transactions: Transacao[] }) {
                 border: "1px solid var(--border)",
                 color: "var(--popover-foreground)",
               }}
+              formatter={(valor) => formatarMoeda(Number(valor))}
             />
           </PieChart>
         </ResponsiveContainer>
