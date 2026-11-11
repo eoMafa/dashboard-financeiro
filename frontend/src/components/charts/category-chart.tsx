@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import type { Transacao } from "@/types/transacao";
 
 const COLORS = [
   "#22c55e",
@@ -19,15 +20,15 @@ const COLORS = [
 
 export function CategoryChart({
   transactions,
-}: any) {
+}: { transactions: Transacao[] }) {
   const expenses = transactions.filter(
-    (t: any) => t.type === "expense"
+    (t) => t.type === "expense"
   );
 
-  const grouped = expenses.reduce(
-    (acc: any, transaction: any) => {
+  const grouped = expenses.reduce<{ name: string; value: number }[]>(
+    (acc, transaction) => {
       const existing = acc.find(
-        (item: any) =>
+        (item) =>
           item.name === transaction.category
       );
 
@@ -72,7 +73,7 @@ export function CategoryChart({
                 label
             >
                 {grouped.map(
-                (_: any, index: number) => (
+                (_, index: number) => (
                     <Cell
                     key={index}
                     fill={

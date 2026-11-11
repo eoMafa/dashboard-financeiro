@@ -9,15 +9,7 @@ import { api } from "@/services/api";
 import { NewTransactionModal } from "@/components/dashboard/new-transaction-modal";
 import { CategoryChart } from "@/components/charts/category-chart";
 import { formatarMoeda } from "@/lib/format";
-
-type Transacao = {
-  id: string;
-  title: string;
-  amount: number;
-  type: "income" | "expense";
-  category: string;
-  createdAt: string;
-};
+import type { Transacao } from "@/types/transacao";
 
 export default function Home() {
   useAuth();

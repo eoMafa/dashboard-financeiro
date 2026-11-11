@@ -9,12 +9,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { Transacao } from "@/types/transacao";
 
 export function BalanceChart({
   transactions,
-}: any) {
-  const grouped = transactions.reduce(
-    (acc: any, transaction: any) => {
+}: {transactions: Transacao[] }) {
+  const grouped = transactions.reduce<{ date: string; balance: number }[]>(
+    (acc, transaction) => {
       const date = new Date(
         transaction.createdAt,
       ).toLocaleDateString("pt-BR", {
@@ -23,7 +24,7 @@ export function BalanceChart({
       });
 
       const existing =
-        acc.find((item: any) =>
+        acc.find((item) =>
           item.date === date
         );
 
