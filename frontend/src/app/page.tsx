@@ -13,12 +13,10 @@ import type { Transacao } from "@/types/transacao";
 
 export default function Home() {
   useAuth();
-  const [transactions, setTransactions] =
-  useState<Transacao[]>([]);
+  const [transactions, setTransactions] = useState<Transacao[]>([]);
   async function loadTransactions() {
     try {
-      const response =
-        await api.get<Transacao[]>("/transactions");
+      const response = await api.get<Transacao[]>("/transactions");
 
       setTransactions(response.data);
     } catch (error) {
@@ -44,47 +42,35 @@ export default function Home() {
   });
 
   const income = transacoesDoMes
-  .filter((t) => t.type === "income")
-  .reduce(
-    (acc: number, item) =>
-      acc + item.amount,
-    0
-  );
+    .filter((t) => t.type === "income")
+    .reduce((acc: number, item) => acc + item.amount, 0);
 
-const expense = transacoesDoMes
-  .filter((t) => t.type === "expense")
-  .reduce(
-    (acc: number, item) =>
-      acc + item.amount,
-    0
-  );
+  const expense = transacoesDoMes
+    .filter((t) => t.type === "expense")
+    .reduce((acc: number, item) => acc + item.amount, 0);
 
-const balance = income - expense;
+  const balance = income - expense;
   return (
-    <main className="flex flex-col md:flex-row bg-background min-h-screen items-stretch text-foreground">
+    <main className="bg-background text-foreground flex min-h-screen flex-col items-stretch md:flex-row">
       <Sidebar />
 
       <section className="flex-1">
         <Topbar />
 
         <div className="p-8">
-          <h1 className="text-3xl font-bold">
-            Dashboard
-          </h1>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
 
           <p className="text-muted-foreground mt-2">
             Bem-vindo ao sistema financeiro.
           </p>
 
-          <div className="flex justify-between items-center mt-8">
+          <div className="mt-8 flex items-center justify-between">
             <div />
 
-            <NewTransactionModal
-              onCreated={loadTransactions}
-            />
+            <NewTransactionModal onCreated={loadTransactions} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
             <FinancialCard
               title="Saldo do mês"
               value={formatarMoeda(balance)}
@@ -101,34 +87,25 @@ const balance = income - expense;
               value={formatarMoeda(expense)}
               variant="expense"
             />
-
           </div>
 
-          <BalanceChart
-            transactions={transactions}
-          />
+          <BalanceChart transactions={transactions} />
 
-          <CategoryChart
-            transactions={transactions}
-          />
+          <CategoryChart transactions={transactions} />
 
-          <div className="mt-8 bg-card border rounded-2xl p-6">
-            <h2 className="text-xl font-semibold mb-6">
-              Últimas transações
-            </h2>
+          <div className="bg-card mt-8 rounded-2xl border p-6">
+            <h2 className="mb-6 text-xl font-semibold">Últimas transações</h2>
 
             <div className="space-y-4">
               {transactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between bg-muted rounded-xl p-4"
+                  className="bg-muted flex items-center justify-between rounded-xl p-4"
                 >
                   <div>
-                    <p className="font-medium">
-                      {transaction.title}
-                    </p>
+                    <p className="font-medium">{transaction.title}</p>
 
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       {transaction.type}
                     </p>
                   </div>

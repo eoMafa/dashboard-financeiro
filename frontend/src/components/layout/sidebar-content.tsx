@@ -8,9 +8,9 @@ import {
 
 export function SidebarContent() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div>
-        <h1 className="text-2xl font-bold text-foreground mb-10 transition-colors">
+        <h1 className="text-foreground mb-10 text-2xl font-bold transition-colors">
           FinDashboard
         </h1>
 
@@ -21,35 +21,23 @@ export function SidebarContent() {
             active
           />
 
-          <SidebarItem
-            icon={<Wallet size={18} />}
-            label="Wallet"
-          />
+          <SidebarItem icon={<Wallet size={18} />} label="Wallet" />
 
-          <SidebarItem
-            icon={<CreditCard size={18} />}
-            label="Cards"
-          />
+          <SidebarItem icon={<CreditCard size={18} />} label="Cards" />
 
-          <SidebarItem
-            icon={<BarChart3 size={18} />}
-            label="Analytics"
-          />
+          <SidebarItem icon={<BarChart3 size={18} />} label="Analytics" />
 
-          <SidebarItem
-            icon={<Settings size={18} />}
-            label="Settings"
-          />
+          <SidebarItem icon={<Settings size={18} />} label="Settings" />
         </nav>
       </div>
 
       <div className="mt-auto pt-6">
-        <div className="bg-muted border rounded-2xl p-4 transition-colors">
-          <p className="text-sm font-medium text-foreground">
+        <div className="bg-muted rounded-2xl border p-4 transition-colors">
+          <p className="text-foreground text-sm font-medium">
             FinDashboard Pro
           </p>
 
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-xs">
             Controle financeiro inteligente
           </p>
         </div>
@@ -69,21 +57,11 @@ function SidebarItem({
 }) {
   return (
     <button
-      className={`
-        flex items-center gap-3
-        w-full
-        transition-all
-        p-3
-        rounded-xl
-        cursor-pointer
-        font-medium
-
-        ${
-          active
-            ? "bg-accent text-accent-foreground"
-            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-        }
-      `}
+      className={`flex w-full cursor-pointer items-center gap-3 rounded-xl p-3 font-medium transition-all ${
+        active
+          ? "bg-accent text-accent-foreground"
+          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+      } `}
     >
       {icon}
 

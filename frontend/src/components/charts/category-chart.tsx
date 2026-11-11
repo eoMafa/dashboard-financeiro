@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import type { Transacao } from "@/types/transacao";
 
 const COLORS = [
@@ -18,23 +12,15 @@ const COLORS = [
   "#06b6d4",
 ];
 
-export function CategoryChart({
-  transactions,
-}: { transactions: Transacao[] }) {
-  const expenses = transactions.filter(
-    (t) => t.type === "expense"
-  );
+export function CategoryChart({ transactions }: { transactions: Transacao[] }) {
+  const expenses = transactions.filter((t) => t.type === "expense");
 
   const grouped = expenses.reduce<{ name: string; value: number }[]>(
     (acc, transaction) => {
-      const existing = acc.find(
-        (item) =>
-          item.name === transaction.category
-      );
+      const existing = acc.find((item) => item.name === transaction.category);
 
       if (existing) {
-        existing.value +=
-          transaction.amount;
+        existing.value += transaction.amount;
       } else {
         acc.push({
           name: transaction.category,
@@ -44,46 +30,34 @@ export function CategoryChart({
 
       return acc;
     },
-    []
+    [],
   );
 
   return (
-    <div className="bg-card border rounded-2xl p-6 mt-8 transition-colors">
-        <div className="mb-6">
-        <h2 className="text-xl font-semibold text-foreground">
-            Gastos por Categoria
+    <div className="bg-card mt-8 rounded-2xl border p-6 transition-colors">
+      <div className="mb-6">
+        <h2 className="text-foreground text-xl font-semibold">
+          Gastos por Categoria
         </h2>
 
         <p className="text-muted-foreground text-sm">
-            Distribuição das despesas
+          Distribuição das despesas
         </p>
-        </div>
+      </div>
 
-        <div className="w-full h-[350px] min-h-[350px]">
-        <ResponsiveContainer
-            width="100%"
-            height="100%"
-        >
-            <PieChart>
+      <div className="h-[350px] min-h-[350px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
             <Pie
-                data={grouped}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={120}
-                label
+              data={grouped}
+              dataKey="value"
+              nameKey="name"
+              outerRadius={120}
+              label
             >
-                {grouped.map(
-                (_, index: number) => (
-                    <Cell
-                    key={index}
-                    fill={
-                        COLORS[
-                        index % COLORS.length
-                        ]
-                    }
-                    />
-                )
-                )}
+              {grouped.map((_, index: number) => (
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+              ))}
             </Pie>
 
             <Tooltip
@@ -93,9 +67,9 @@ export function CategoryChart({
                 color: "var(--popover-foreground)",
               }}
             />
-            </PieChart>
+          </PieChart>
         </ResponsiveContainer>
-        </div>
+      </div>
     </div>
-    );
+  );
 }

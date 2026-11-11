@@ -11,22 +11,15 @@ import {
 } from "recharts";
 import type { Transacao } from "@/types/transacao";
 
-export function BalanceChart({
-  transactions,
-}: {transactions: Transacao[] }) {
+export function BalanceChart({ transactions }: { transactions: Transacao[] }) {
   const grouped = transactions.reduce<{ date: string; balance: number }[]>(
     (acc, transaction) => {
-      const date = new Date(
-        transaction.createdAt,
-      ).toLocaleDateString("pt-BR", {
+      const date = new Date(transaction.createdAt).toLocaleDateString("pt-BR", {
         day: "2-digit",
         month: "2-digit",
       });
 
-      const existing =
-        acc.find((item) =>
-          item.date === date
-        );
+      const existing = acc.find((item) => item.date === date);
 
       const value =
         transaction.type === "income"
@@ -44,13 +37,13 @@ export function BalanceChart({
 
       return acc;
     },
-    []
+    [],
   );
 
   return (
-    <div className="bg-card border rounded-2xl p-6 mt-8 transition-colors">
+    <div className="bg-card mt-8 rounded-2xl border p-6 transition-colors">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-foreground">
+        <h2 className="text-foreground text-xl font-semibold">
           Fluxo Financeiro
         </h2>
 
@@ -59,7 +52,7 @@ export function BalanceChart({
         </p>
       </div>
 
-      <div className="w-full h-[350px] min-h-[350px]">
+      <div className="h-[350px] min-h-[350px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={grouped}>
             <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />

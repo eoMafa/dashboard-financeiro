@@ -36,15 +36,13 @@ const transactions = [
 
 export function TransactionTable() {
   return (
-    <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 mt-8">
+    <div className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-white">
           Recent Transactions
         </h2>
 
-        <p className="text-zinc-400 text-sm">
-          Latest financial operations
-        </p>
+        <p className="text-sm text-zinc-400">Latest financial operations</p>
       </div>
 
       <Table>
@@ -58,17 +56,14 @@ export function TransactionTable() {
 
         <TableBody>
           {transactions.map((transaction) => (
-            <TableRow
-              key={transaction.id}
-              className="border-zinc-800"
-            >
+            <TableRow key={transaction.id} className="border-zinc-800">
               <TableCell>{transaction.type}</TableCell>
 
               <TableCell>{transaction.amount}</TableCell>
 
               <TableCell>
                 <span
-                  className={`px-3 py-1 rounded-full text-xs ${
+                  className={`rounded-full px-3 py-1 text-xs ${
                     transaction.status === "Completed"
                       ? "bg-emerald-500/20 text-emerald-400"
                       : "bg-yellow-500/20 text-yellow-400"

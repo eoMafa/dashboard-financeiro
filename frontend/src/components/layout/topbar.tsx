@@ -1,18 +1,8 @@
 "use client";
 
-import {
-  Bell,
-  Search,
-  Menu,
-  Moon,
-  Sun,
-} from "lucide-react";
+import { Bell, Search, Menu, Moon, Sun } from "lucide-react";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { SidebarContent } from "./sidebar-content";
 
@@ -46,12 +36,13 @@ export function Topbar() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
 
   useEffect(() => {
-    api.get<Usuario>("/users/me")
-    .then((resposta) => setUsuario(resposta.data))
-    .catch(() => {
-      localStorage.removeItem("token");
-      router.push("/login");
-    });
+    api
+      .get<Usuario>("/users/me")
+      .then((resposta) => setUsuario(resposta.data))
+      .catch(() => {
+        localStorage.removeItem("token");
+        router.push("/login");
+      });
   }, [router]);
 
   function logout() {
@@ -61,19 +52,16 @@ export function Topbar() {
   }
 
   return (
-    <header className="w-full h-20 border-b bg-card px-4 md:px-8 flex items-center justify-between transition-colors">
+    <header className="bg-card flex h-20 w-full items-center justify-between border-b px-4 transition-colors md:px-8">
       <div className="flex items-center gap-4">
         <Sheet>
           <SheetTrigger asChild>
-            <button className="md:hidden text-foreground">
+            <button className="text-foreground md:hidden">
               <Menu size={24} />
             </button>
           </SheetTrigger>
 
-          <SheetContent
-            side="left"
-            className="bg-card p-0 w-64"
-          >
+          <SheetContent side="left" className="bg-card w-64 p-0">
             <div className="p-4">
               <SidebarContent />
             </div>
@@ -83,13 +71,10 @@ export function Topbar() {
         <div className="relative w-[220px] md:w-[350px]">
           <Search
             size={18}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+            className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2"
           />
 
-          <Input
-            placeholder="Search..."
-            className="pl-10 bg-muted"
-          />
+          <Input placeholder="Search..." className="bg-muted pl-10" />
         </div>
       </div>
 
@@ -97,10 +82,10 @@ export function Topbar() {
         <button className="relative">
           <Bell className="text-muted-foreground" />
 
-          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-primary" />
+          <span className="bg-primary absolute -top-1 -right-1 h-2 w-2 rounded-full" />
         </button>
 
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden items-center gap-3 sm:flex">
           <Avatar>
             <AvatarFallback className="bg-muted text-foreground">
               {usuario ? iniciais(usuario.name) : ""}
@@ -108,35 +93,27 @@ export function Topbar() {
           </Avatar>
 
           <div>
-            <p className="text-sm font-medium text-foreground">
+            <p className="text-foreground text-sm font-medium">
               {usuario?.name}
             </p>
 
-            <span className="text-xs text-muted-foreground">
+            <span className="text-muted-foreground text-xs">
               {usuario?.email}
             </span>
           </div>
         </div>
 
         <button
-          onClick={() =>
-            setTheme(
-              theme === "dark"
-                ? "light"
-                : "dark"
-            )
-          }
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="text-muted-foreground hover:text-foreground"
         >
-          
           <Sun size={18} className="hidden dark:block" />
           <Moon size={18} className="dark:hidden" />
-          
         </button>
 
         <button
           onClick={logout}
-          className="text-xs text-destructive hover:opacity-80"
+          className="text-destructive text-xs hover:opacity-80"
         >
           Logout
         </button>
