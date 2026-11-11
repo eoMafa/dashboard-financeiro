@@ -2,44 +2,67 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { FinancialCard } from "@/components/dashboard/financial-card";
 import { BalanceChart } from "@/components/charts/balance-chart";
-import { TransactionTable } from "@/components/dashboard/transaction-table";
 import { Topbar } from "@/components/layout/topbar";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { NewTransactionModal } from "@/components/dashboard/new-transaction-modal";
 import { CategoryChart } from "@/components/charts/category-chart";
+import { formatarMoeda } from "@/lib/format";
+
+type Transacao = {
+  id: string;
+  title: string;
+  amount: number;
+  type: "income" | "expense";
+  category: string;
+  createdAt: string;
+};
 
 export default function Home() {
   useAuth();
   const [transactions, setTransactions] =
-  useState([]);
+  useState<Transacao[]>([]);
   async function loadTransactions() {
     try {
       const response =
-        await api.get("/transactions");
+        await api.get<Transacao[]>("/transactions");
 
       setTransactions(response.data);
     } catch (error) {
       console.log(error);
     }
   }
+
   useEffect(() => {
-    loadTransactions();
+    api
+      .get<Transacao[]>("/transactions")
+      .then((resposta) => setTransactions(resposta.data))
+      .catch((erro) => console.log(erro));
   }, []);
 
-  const income = transactions
-  .filter((t: any) => t.type === "income")
+  const hoje = new Date();
+
+  const transacoesDoMes = transactions.filter((t) => {
+    const data = new Date(t.createdAt);
+    return (
+      data.getMonth() === hoje.getMonth() &&
+      data.getFullYear() === hoje.getFullYear()
+    );
+  });
+
+  const income = transacoesDoMes
+  .filter((t) => t.type === "income")
   .reduce(
-    (acc: number, item: any) =>
+    (acc: number, item) =>
       acc + item.amount,
     0
   );
 
-const expense = transactions
-  .filter((t: any) => t.type === "expense")
+const expense = transacoesDoMes
+  .filter((t) => t.type === "expense")
   .reduce(
-    (acc: number, item: any) =>
+    (acc: number, item) =>
       acc + item.amount,
     0
   );
@@ -69,30 +92,24 @@ const balance = income - expense;
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
             <FinancialCard
-              title="Saldo Total"
-              value={`R$ ${balance.toFixed(2)}`}
-              growth={income > expense ? "+12.5%" : "-12.5%"}
+              title="Saldo do mês"
+              value={formatarMoeda(balance)}
             />
 
             <FinancialCard
               title="Receitas"
-              value={`R$ ${income.toFixed(2)}`}
-              growth="+8.2%"
+              value={formatarMoeda(income)}
+              variant="income"
             />
 
             <FinancialCard
               title="Despesas"
-              value={`R$ ${expense.toFixed(2)}`}
-              growth="-2.4%"
+              value={formatarMoeda(expense)}
+              variant="expense"
             />
 
-            <FinancialCard
-              title="Investimentos"
-              value="$ 67,900.00"
-              growth="+15.1%"
-            />
           </div>
 
           <BalanceChart
@@ -109,7 +126,7 @@ const balance = income - expense;
             </h2>
 
             <div className="space-y-4">
-              {transactions.map((transaction: any) => (
+              {transactions.map((transaction) => (
                 <div
                   key={transaction.id}
                   className="flex items-center justify-between bg-muted rounded-xl p-4"
@@ -131,7 +148,7 @@ const balance = income - expense;
                         : "text-expense"
                     }`}
                   >
-                    R$ {transaction.amount}
+                    {formatarMoeda(transaction.amount)}
                   </p>
                 </div>
               ))}

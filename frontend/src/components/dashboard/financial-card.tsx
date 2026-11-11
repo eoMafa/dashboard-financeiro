@@ -3,13 +3,13 @@ import { Card, CardContent } from "@/components/ui/card";
 interface FinancialCardProps {
   title: string;
   value: string;
-  growth: string;
+  variant?: "income" | "expense";
 }
 
 export function FinancialCard({
   title,
   value,
-  growth,
+  variant,
 }: FinancialCardProps) {
   return (
     <Card>
@@ -18,13 +18,10 @@ export function FinancialCard({
           {title}
         </p>
 
-        <h2 className="text-3xl font-bold mt-2">
+        <h2 className={`text-3xl font-bold mt-2 ${variant === "income" ? "text-income" : variant === "expense" ? "text-expense" : ""}`}>
           {value}
         </h2>
 
-        <span className="text-income text-sm mt-3 block">
-          {growth}
-        </span>
       </CardContent>
     </Card>
   );
