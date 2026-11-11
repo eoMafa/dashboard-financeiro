@@ -1,32 +1,13 @@
 "use client";
 import { FinancialCard } from "@/components/dashboard/financial-card";
 import { BalanceChart } from "@/components/charts/balance-chart";
-import { useEffect, useState } from "react";
-import { api } from "@/services/api";
 import { NewTransactionModal } from "@/components/dashboard/new-transaction-modal";
 import { CategoryChart } from "@/components/charts/category-chart";
 import { formatarMoeda } from "@/lib/format";
-import type { Transacao } from "@/types/transacao";
+import { useTransacoes } from "@/hooks/useTransacoes";
 
 export default function Home() {
-  const [transactions, setTransactions] = useState<Transacao[]>([]);
-  async function loadTransactions() {
-    try {
-      const response = await api.get<Transacao[]>("/transactions");
-
-      setTransactions(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    api
-      .get<Transacao[]>("/transactions")
-      .then((resposta) => setTransactions(resposta.data))
-      .catch((erro) => console.log(erro));
-  }, []);
-
+  const { transacoes: transactions, recarregar } = useTransacoes();
   const hoje = new Date();
 
   const transacoesDoMes = transactions.filter((t) => {
@@ -57,7 +38,7 @@ export default function Home() {
       <div className="mt-8 flex items-center justify-between">
         <div />
 
-        <NewTransactionModal onCreated={loadTransactions} />
+        <NewTransactionModal onCreated={recarregar} />
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
