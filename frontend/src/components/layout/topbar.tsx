@@ -26,15 +26,33 @@ import { useRouter } from "next/navigation";
 
 import { useTheme } from "next-themes";
 
+import { api } from "@/services/api";
+
+type Usuario = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+function iniciais(nome: string) {
+  const palavras = nome.split(" ").slice(0, 2);
+  const letras = palavras.map((palavra) => palavra[0]);
+  return letras.join("").toUpperCase();
+}
+
 export function Topbar() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-
-  const [mounted, setMounted] = useState(false);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    api.get<Usuario>("/users/me")
+    .then((resposta) => setUsuario(resposta.data))
+    .catch(() => {
+      localStorage.removeItem("token");
+      router.push("/login");
+    });
+  }, [router]);
 
   function logout() {
     localStorage.removeItem("token");
@@ -85,17 +103,17 @@ export function Topbar() {
         <div className="hidden sm:flex items-center gap-3">
           <Avatar>
             <AvatarFallback className="bg-muted text-foreground">
-              AJ
+              {usuario ? iniciais(usuario.name) : ""}
             </AvatarFallback>
           </Avatar>
 
           <div>
             <p className="text-sm font-medium text-foreground">
-              Anderson Jr
+              {usuario?.name}
             </p>
 
             <span className="text-xs text-muted-foreground">
-              Administrator
+              {usuario?.email}
             </span>
           </div>
         </div>
@@ -110,12 +128,10 @@ export function Topbar() {
           }
           className="text-muted-foreground hover:text-foreground"
         >
-          {mounted &&
-            (theme === "dark" ? (
-              <Sun size={18} />
-            ) : (
-              <Moon size={18} />
-            ))}
+          
+          <Sun size={18} className="hidden dark:block" />
+          <Moon size={18} className="dark:hidden" />
+          
         </button>
 
         <button
