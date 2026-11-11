@@ -3,7 +3,7 @@ import { FinancialCard } from "@/components/dashboard/financial-card";
 import { BalanceChart } from "@/components/charts/balance-chart";
 import { NewTransactionModal } from "@/components/dashboard/new-transaction-modal";
 import { CategoryChart } from "@/components/charts/category-chart";
-import { formatarMoeda } from "@/lib/format";
+import { formatarData, formatarMoeda } from "@/lib/format";
 import { useTransacoes } from "@/hooks/useTransacoes";
 
 export default function Home() {
@@ -65,7 +65,7 @@ export default function Home() {
         <h2 className="mb-6 text-xl font-semibold">Últimas transações</h2>
 
         <div className="space-y-4">
-          {transactions.map((transaction) => (
+          {transactions.slice(0, 5).map((transaction) => (
             <div
               key={transaction.id}
               className="bg-muted flex items-center justify-between rounded-xl p-4"
@@ -74,7 +74,7 @@ export default function Home() {
                 <p className="font-medium">{transaction.title}</p>
 
                 <p className="text-muted-foreground text-sm">
-                  {transaction.type}
+                  {transaction.category} · {formatarData(transaction.createdAt)}
                 </p>
               </div>
 
