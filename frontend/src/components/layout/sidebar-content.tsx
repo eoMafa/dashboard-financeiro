@@ -1,12 +1,11 @@
-import {
-  LayoutDashboard,
-  Wallet,
-  CreditCard,
-  BarChart3,
-  Settings,
-} from "lucide-react";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LayoutDashboard, ArrowLeftRight } from "lucide-react";
 
 export function SidebarContent() {
+  const pathname = usePathname();
   return (
     <div className="flex h-full flex-col">
       <div>
@@ -16,18 +15,18 @@ export function SidebarContent() {
 
         <nav className="space-y-3">
           <SidebarItem
+            href="/"
             icon={<LayoutDashboard size={18} />}
-            label="Dashboard"
-            active
+            label="Visão geral"
+            active={pathname === "/"}
           />
 
-          <SidebarItem icon={<Wallet size={18} />} label="Wallet" />
-
-          <SidebarItem icon={<CreditCard size={18} />} label="Cards" />
-
-          <SidebarItem icon={<BarChart3 size={18} />} label="Analytics" />
-
-          <SidebarItem icon={<Settings size={18} />} label="Settings" />
+          <SidebarItem
+            href="/transacoes"
+            icon={<ArrowLeftRight size={18} />}
+            label="Transações"
+            active={pathname === "/transacoes"}
+          />
         </nav>
       </div>
 
@@ -47,17 +46,20 @@ export function SidebarContent() {
 }
 
 function SidebarItem({
+  href,
   icon,
   label,
   active,
 }: {
+  href: string;
   icon: React.ReactNode;
   label: string;
   active?: boolean;
 }) {
   return (
-    <button
-      className={`flex w-full cursor-pointer items-center gap-3 rounded-xl p-3 font-medium transition-all ${
+    <Link
+      href={href}
+      className={`flex w-full items-center gap-3 rounded-xl p-3 font-medium transition-all ${
         active
           ? "bg-accent text-accent-foreground"
           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -66,6 +68,6 @@ function SidebarItem({
       {icon}
 
       <span>{label}</span>
-    </button>
+    </Link>
   );
 }
