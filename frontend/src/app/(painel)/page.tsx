@@ -5,6 +5,7 @@ import { NewTransactionModal } from "@/components/dashboard/new-transaction-moda
 import { CategoryChart } from "@/components/charts/category-chart";
 import { formatarData, formatarMoeda } from "@/lib/format";
 import { useTransacoes } from "@/hooks/useTransacoes";
+import { nomeDaCategoria } from "@/lib/categorias";
 
 export default function Home() {
   const { transacoes: transactions, recarregar } = useTransacoes();
@@ -74,7 +75,8 @@ export default function Home() {
                 <p className="font-medium">{transaction.title}</p>
 
                 <p className="text-muted-foreground text-sm">
-                  {transaction.category} · {formatarData(transaction.createdAt)}
+                  {nomeDaCategoria(transaction.category)} ·{" "}
+                  {formatarData(transaction.createdAt)}
                 </p>
               </div>
 

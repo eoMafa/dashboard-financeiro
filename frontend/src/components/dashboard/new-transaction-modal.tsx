@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { CATEGORIAS } from "@/lib/categorias";
 
 export function NewTransactionModal({ onCreated }: { onCreated: () => void }) {
   const [title, setTitle] = useState("");
@@ -80,17 +81,11 @@ export function NewTransactionModal({ onCreated }: { onCreated: () => void }) {
             onChange={(e) => setCategory(e.target.value)}
             className="bg-muted w-full rounded-xl border px-4 py-3"
           >
-            <option value="Salary">Salário</option>
-
-            <option value="Food">Alimentação</option>
-
-            <option value="Transport">Transporte</option>
-
-            <option value="Investment">Investimento</option>
-
-            <option value="Pix">Pix</option>
-
-            <option value="Credit Card">Cartão</option>
+            {CATEGORIAS.map((categoria) => (
+              <option key={categoria.valor} value={categoria.valor}>
+                {categoria.rotulo}
+              </option>
+            ))}
           </select>
 
           <button

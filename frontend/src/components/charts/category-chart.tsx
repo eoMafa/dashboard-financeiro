@@ -3,6 +3,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import type { Transacao } from "@/types/transacao";
 import { formatarMoeda } from "@/lib/format";
+import { nomeDaCategoria } from "@/lib/categorias";
 
 const COLORS = [
   "#22c55e",
@@ -18,13 +19,14 @@ export function CategoryChart({ transactions }: { transactions: Transacao[] }) {
 
   const grouped = expenses.reduce<{ name: string; value: number }[]>(
     (acc, transaction) => {
-      const existing = acc.find((item) => item.name === transaction.category);
+      const nome = nomeDaCategoria(transaction.category);
+      const existing = acc.find((item) => item.name === nome);
 
       if (existing) {
         existing.value += transaction.amount;
       } else {
         acc.push({
-          name: transaction.category,
+          name: nome,
           value: transaction.amount,
         });
       }
@@ -54,7 +56,9 @@ export function CategoryChart({ transactions }: { transactions: Transacao[] }) {
               dataKey="value"
               nameKey="name"
               outerRadius={120}
-              label={({ value }) => formatarMoeda(Number(value))}
+              label={({ name, value }) =>
+                `${name}: ${formatarMoeda(Number(value))}`
+              }
             >
               {grouped.map((_, index: number) => (
                 <Cell key={index} fill={COLORS[index % COLORS.length]} />

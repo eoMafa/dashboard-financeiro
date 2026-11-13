@@ -5,6 +5,7 @@ import { useState } from "react";
 import { NewTransactionModal } from "@/components/dashboard/new-transaction-modal";
 import { useTransacoes } from "@/hooks/useTransacoes";
 import { formatarData, formatarMoeda } from "@/lib/format";
+import { nomeDaCategoria } from "@/lib/categorias";
 
 type Filtro = "todas" | "income" | "expense";
 
@@ -61,7 +62,7 @@ export default function TransacoesPage() {
               <div>
                 <p className="font-medium">{t.title}</p>
                 <p className="text-muted-foreground text-sm">
-                  {t.category} · {formatarData(t.createdAt)}
+                  {nomeDaCategoria(t.category)} · {formatarData(t.createdAt)}
                 </p>
               </div>
 
