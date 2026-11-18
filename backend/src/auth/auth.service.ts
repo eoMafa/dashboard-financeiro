@@ -10,6 +10,8 @@ import { RegisterDto } from './dto/register.dto';
 
 import { LoginDto } from './dto/login.dto';
 
+import { ConflictException } from '@nestjs/common';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -18,6 +20,16 @@ export class AuthService {
   ) {}
 
   async register(data: RegisterDto) {
+    const userExists = await this.prisma.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+
+    if (userExists) {
+      throw new ConflictException('Email already registered');
+    }
+
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const user = await this.prisma.user.create({
