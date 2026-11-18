@@ -6,6 +6,8 @@ import axios from "axios";
 
 import { useRouter } from "next/navigation";
 
+import Link from "next/link";
+
 export default function LoginPage() {
   const router = useRouter();
 
@@ -69,6 +71,15 @@ export default function LoginPage() {
             Entrar
           </button>
           {erro && <p className="text-destructive text-sm">{erro}</p>}
+          <p className="text-muted-foreground text-center text-sm">
+            Não tem conta?{" "}
+            <Link
+              href="/cadastro"
+              className="text-primary font-semibold hover:underline"
+            >
+              Cadastre-se
+            </Link>
+          </p>
         </div>
       </div>
     </main>
